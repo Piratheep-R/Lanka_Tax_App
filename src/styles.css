@@ -1,0 +1,106 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@theme {
+  --font-sans: "Figtree", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Fraunces", "Times New Roman", serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+
+  --color-background: #f3efe6;
+  --color-foreground: #1a221c;
+  --color-card: #fbf8f1;
+  --color-card-foreground: #1a221c;
+  --color-popover: #fbf8f1;
+  --color-popover-foreground: #1a221c;
+  --color-primary: #2f5d4a;
+  --color-primary-foreground: #f4efe4;
+  --color-secondary: #e8e2d4;
+  --color-secondary-foreground: #1a221c;
+  --color-muted: #e7e1d4;
+  --color-muted-foreground: #5c655f;
+  --color-accent: #dce8e1;
+  --color-accent-foreground: #1a221c;
+  --color-destructive: #8f2d2d;
+  --color-destructive-foreground: #f7f4ec;
+  --color-border: #d4cec0;
+  --color-input: #d4cec0;
+  --color-ring: #2f5d4a;
+  --color-ink: #1a221c;
+  --color-paper: #f3efe6;
+  --color-leaf: #2f5d4a;
+  --color-warn: #8a5a22;
+  --color-warn-foreground: #f7f1e4;
+  --color-sidebar: #1a221c;
+  --color-sidebar-foreground: #e8e4d8;
+  --color-sidebar-muted: #9aa59c;
+  --color-sidebar-border: #2c3831;
+
+  --radius-xs: 4px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 18px;
+  --radius-xl: 24px;
+  --radius: 12px;
+
+  --shadow-soft: 0 1px 0 color-mix(in oklab, var(--color-ink) 6%, transparent),
+    0 18px 40px -24px color-mix(in oklab, var(--color-ink) 28%, transparent);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background: var(--color-background);
+    color: var(--color-foreground);
+  }
+
+  body {
+    min-height: 100dvh;
+    font-family: var(--font-sans);
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    background-image:
+      radial-gradient(1200px 480px at 8% -10%, color-mix(in oklab, var(--color-leaf) 8%, transparent), transparent 60%),
+      linear-gradient(
+        180deg,
+        color-mix(in oklab, var(--color-paper) 100%, white) 0%,
+        var(--color-background) 240px
+      );
+  }
+
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+    font-family: var(--font-display);
+    letter-spacing: -0.03em;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+
+  ::selection {
+    background: color-mix(in oklab, var(--color-leaf) 28%, transparent);
+    color: var(--color-ink);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
