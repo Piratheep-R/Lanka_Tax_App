@@ -32,21 +32,37 @@ jobs:
 
       - name: Build project
         env:
-          NITRO_PRESET: github_pages
+          DEPLOY_TARGET: github-pages
           VITE_BASE_PATH: /Lanka_Tax_App/
         run: npm run build
 
-      - name: Ensure SPA 404 fallback & .nojekyll
+      - name: Prepare static output directory
         run: |
-          touch .output/public/.nojekyll
-          if [ -f .output/public/index.html ] && [ ! -f .output/public/404.html ]; then
-            cp .output/public/index.html .output/public/404.html
+          OUT_DIR=""
+          if [ -d .output/public ]; then
+            OUT_DIR=".output/public"
+          elif [ -d dist ]; then
+            OUT_DIR="dist"
+          elif [ -d .output ]; then
+            OUT_DIR=".output"
+          else
+            echo "Searching for build output..."
+            OUT_DIR=$(find . -name "index.html" -o -name "_shell.html" | head -n 1 | xargs dirname)
           fi
+          echo "Selected output directory: $OUT_DIR"
+          touch "$OUT_DIR/.nojekyll"
+          if [ -f "$OUT_DIR/_shell.html" ] && [ ! -f "$OUT_DIR/index.html" ]; then
+            cp "$OUT_DIR/_shell.html" "$OUT_DIR/index.html"
+          fi
+          if [ -f "$OUT_DIR/index.html" ] && [ ! -f "$OUT_DIR/404.html" ]; then
+            cp "$OUT_DIR/index.html" "$OUT_DIR/404.html"
+          fi
+          echo "OUT_DIR=$OUT_DIR" >> $GITHUB_ENV
 
       - name: Upload artifact to GitHub Pages
         uses: actions/upload-pages-artifact@v3
         with:
-          path: .output/public
+          path: ${{ env.OUT_DIR }}
 
   deploy:
     environment:
