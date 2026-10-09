@@ -39,7 +39,9 @@ jobs:
       - name: Prepare static output directory
         run: |
           OUT_DIR=""
-          if [ -d .output/public ]; then
+          if [ -d dist/client ]; then
+            OUT_DIR="dist/client"
+          elif [ -d .output/public ]; then
             OUT_DIR=".output/public"
           elif [ -d dist ]; then
             OUT_DIR="dist"
